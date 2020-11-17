@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chihuo.sharding.domain.order.repository.mapper.OrderDao">
+
+	<insert id="save" useGeneratedKeys="false" keyProperty="uid" parameterType="com.chihuo.sharding.domain.order.repository.po.OrderPO">
+		  insert into f_order (
+				uuid,
+				user_id,
+				seller_id,
+				order_amount,
+				hongbao_amount,
+				create_time
+		  ) values (
+		    	order_seq_id.nextval,
+		    	#{orderPO.userId,jdbcType=NUMERIC},
+		    	#{orderPO.sellerId,jdbcType=NUMERIC},
+		    	#{orderPO.orderAmount,jdbcType=DECIMAL},
+		    	#{orderPO.hongbaoAmount,jdbcType=DECIMAL},
+	            SYSDATE
+		  )
+	</insert>
+	
+	<select id="findOrderList" resultType="com.chihuo.sharding.domain.order.repository.po.OrderPO">
+		select uuid uuid,
+		       user_id userId,
+		       seller_id sellerId,
+		       order_amount orderAmount,
+		       hongbao_amount hongbaoAmount,
+		       create_time createTime
+		from  f_order      
+	</select>
+
+	<select id="countOrderList" resultType="int">
+		select count(*) from f_order      
+	</select>
+	
+</mapper>
